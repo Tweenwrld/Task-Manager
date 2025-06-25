@@ -37,6 +37,17 @@ function Posts() {
     setCurrentPage(1);
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this task?')) return;
+    try {
+      const response = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Failed to delete task');
+      setTasks(tasks.filter((task) => task._id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   if (loading) return <div className={styles.loading}>Loading...</div>;
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
@@ -51,7 +62,24 @@ function Posts() {
       />
       <div className={styles.postGrid}>
         {currentTasks.map((task) => (
-          <Card key={task._id} title={task.title} body={task.status} />
+          <div
+            key={task._id}
+            className={styles.cardWrapper}
+            style={{ animation: 'fadeIn 0.5s' }}
+          >
+            <Card title={task.title}>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 dark:text-gray-300 font-medium">{task.status}</span>
+                <button
+                  className="ml-4 px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
+                  onClick={() => handleDelete(task._id)}
+                  aria-label="Delete task"
+                >
+                  Delete
+                </button>
+              </div>
+            </Card>
+          </div>
         ))}
       </div>
       <div className={styles.pagination}>

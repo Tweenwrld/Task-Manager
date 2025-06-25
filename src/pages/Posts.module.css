@@ -26,11 +26,22 @@
 
 .postGrid {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 @media (min-width: 768px) {
   .postGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
+}
+
+.cardWrapper {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

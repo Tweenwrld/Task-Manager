@@ -1,13 +1,13 @@
-import { createContext, useState, useEffect } from 'react';
+import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
 
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
+  React.useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
