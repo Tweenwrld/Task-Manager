@@ -1,12 +1,159 @@
-# React + Vite
+# Task Manager MERN Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack MERN (MongoDB, Express, React, Node.js) Task Manager and Posts application. This project allows users to manage tasks (with status) and posts, providing a modern, responsive UI and a robust backend API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Setup & Installation](#setup--installation)
+- [Available Scripts](#available-scripts)
+- [API Endpoints](#api-endpoints)
+- [Environment Variables](#environment-variables)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+- Add, view, and delete tasks
+- Tasks have status: Active or Completed
+- Add, view, and delete posts
+- Responsive React frontend (Vite, TailwindCSS)
+- RESTful backend API (Express, MongoDB/Mongoose)
+- ESLint and code quality tools
+
+---
+
+## Tech Stack
+- **Frontend:** React, Vite, TailwindCSS, React Router, ESLint
+- **Backend:** Node.js, Express, Mongoose, MongoDB
+- **Dev Tools:** concurrently, nodemon
+
+---
+
+## Project Structure
+```
+task-manager/
+  ├── src/                  # Frontend source code
+  │   ├── components/       # UI components (TaskManager, Navbar, etc.)
+  │   ├── pages/            # Main pages (Home, Posts)
+  │   ├── hooks/            # Custom React hooks
+  │   ├── layouts/          # Layout components
+  │   └── context/          # Context providers
+  ├── task-manager-backend/ # Backend API
+  │   ├── models/           # Mongoose models (Task, Post)
+  │   ├── server.js         # Express server and API routes
+  │   └── seeder.js         # (Optional) DB seeder script
+  ├── package.json          # Frontend scripts & dependencies
+  ├── vite.config.js        # Vite config
+  └── README.md             # Project documentation
+```
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm (v9+ recommended)
+- MongoDB running locally on default port (27017)
+
+### 1. Clone the Repository
+```sh
+git clone <repo-url>
+cd task-manager
+```
+
+### 2. Install Dependencies
+```sh
+npm install
+cd task-manager-backend
+npm install
+cd ..
+```
+
+### 3. Seed the Database (Optional)
+If you want to populate initial data:
+```sh
+cd task-manager-backend
+node seeder.js
+cd ..
+```
+
+### 4. Start the Application
+
+#### Development (concurrently runs backend and frontend):
+```sh
+npm run dev
+```
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
+
+#### Start Backend Only:
+```sh
+cd task-manager-backend
+npm run dev
+```
+
+#### Start Frontend Only:
+```sh
+npm run dev
+```
+
+### 5. Build for Production
+```sh
+npm run build
+```
+- Serve the production build with your preferred static server.
+
+### 6. Linting
+```sh
+npm run lint
+```
+
+---
+
+## Available Scripts
+
+### In the root directory:
+- `npm run dev` — Run both backend and frontend in development mode (concurrently)
+- `npm run build` — Build frontend for production
+- `npm run preview` — Preview production build
+- `npm run lint` — Run ESLint
+
+### In `task-manager-backend/`:
+- `npm run dev` — Start backend with nodemon
+- `npm start` — Start backend with node
+
+---
+
+## API Endpoints
+
+### Tasks
+- `GET /api/tasks` — List all tasks
+- `POST /api/tasks` — Add a new task (`{ title, status }`)
+- `DELETE /api/tasks/:id` — Delete a task
+
+### Posts
+- `GET /api/posts` — List all posts
+- `POST /api/posts` — Add a new post (`{ title, body }`)
+- `DELETE /api/posts/:id` — Delete a post
+
+---
+
+## Environment Variables
+- By default, backend connects to `mongodb://localhost:27017/task-manager`.
+- For production, set `NODE_ENV=production` and configure MongoDB URI as needed.
+
+---
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## License
+[MIT](LICENSE) (add a LICENSE file if you want to specify)
