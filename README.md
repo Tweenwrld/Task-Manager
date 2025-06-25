@@ -14,6 +14,7 @@ A full-stack MERN (MongoDB, Express, React, Node.js) Task Manager and Posts appl
 - [Environment Variables](#environment-variables)
 - [Contributing](#contributing)
 - [License](#license)
+- [Common Issues & Fixes](#common-issues--fixes)
 
 ---
 
@@ -157,3 +158,74 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## License
 [MIT](LICENSE) (add a LICENSE file if you want to specify)
+
+---
+
+## Common Issues & Fixes
+
+### Vite Proxy Error: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+
+**Error:**
+```
+Error: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+```
+
+**Cause:**
+- The frontend expected a JSON response from the backend, but received an HTML page instead. This happened because Vite v4+ no longer supports the `proxy` field in `package.json`. As a result, API requests were not forwarded to the backend, and Vite served its own HTML (usually index.html or a 404 page).
+
+**How We Fixed It:**
+1. **Removed** the `proxy` field from `package.json`:
+   ```json
+   // package.json
+   // "proxy": "http://localhost:5000" (removed)
+   ```
+2. **Added proxy configuration to `vite.config.js`:**
+   ```js
+   // vite.config.js
+   import { defineConfig } from 'vite';
+   import react from '@vitejs/plugin-react';
+
+   export default defineConfig({
+     plugins: [react()],
+     server: {
+       proxy: {
+         '/api': 'http://localhost:5000',
+       },
+     },
+   });
+   ```
+3. **Restarted both frontend and backend servers** after making these changes:
+   ```sh
+   # In one terminal
+   cd task-manager-backend
+   npm run dev
+
+   # In another terminal (root directory)
+   npm run dev
+   ```
+
+**Result:**
+- The frontend `/api/tasks` requests are now correctly proxied to the backend, and the error is resolved.
+
+### ThemeContext.jsx: Uncaught ReferenceError: React is not defined
+
+**Error:**
+```
+ThemeContext.jsx:10 Uncaught ReferenceError: React is not defined
+    at ThemeProvider (ThemeContext.jsx:10:3)
+    ...
+```
+
+**Cause:**
+- In `ThemeContext.jsx`, the code uses `React.useEffect`, but does not import the `React` object. Even with the new JSX transform, if you use the `React.` namespace, you must import React.
+
+**How We Fixed It:**
+1. Added the following import at the top of `src/context/ThemeContext.jsx`:
+   ```js
+   import React, { createContext } from 'react';
+   ```
+   This ensures both `React` and `createContext` are available in the file.
+2. Saved the file and restarted the dev server.
+
+**Result:**
+- The error is resolved, and the ThemeProvider component now works as expected.
