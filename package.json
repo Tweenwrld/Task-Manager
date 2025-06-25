@@ -30,6 +30,6 @@
     "tailwindcss": "^4.1.10",
     "vite": "^6.3.5",
     "concurrently": "^8.2.2"
-  },
-  "proxy": "http://localhost:5000"
+  }
+
 }
